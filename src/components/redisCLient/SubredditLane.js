@@ -1,6 +1,6 @@
-import Post from './Post';
+import Post from './Post'
 
-export default function SubredditLane({ subreddit, posts, loading, error, onRemove, onRefresh }) {
+const SubredditLane = ({ subreddit, posts, loading, error, onRemove, onRefresh }) => {
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="bg-blue-600 p-4 flex justify-between items-center">
@@ -50,5 +50,7 @@ export default function SubredditLane({ subreddit, posts, loading, error, onRemo
         )}
       </div>
     </div>
-  );
+  )
 }
+
+export default SubredditLane

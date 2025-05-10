@@ -1,43 +1,43 @@
-import { useState, useEffect } from 'react';
-import SubredditLane from './SubredditLane';
-import AddLaneForm from './AddLaneForm';
+import { useState, useEffect } from 'react'
+import SubredditLane from '../../components/redisCLient/SubredditLane'
+import AddLaneForm from '../../components/redisCLient/AddLaneForm'
 
-export default function App() {
-  const [lanes, setLanes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+const RedisclientPage = () => {
+  const [lanes, setLanes] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   // Load saved lanes from localStorage on initial render
   useEffect(() => {
-    const savedLanes = localStorage.getItem('redditLanes');
+    const savedLanes = localStorage.getItem('redditLanes')
     if (savedLanes) {
-      setLanes(JSON.parse(savedLanes));
+      setLanes(JSON.parse(savedLanes))
     }
-  }, []);
+  }, [])
 
   // Save lanes to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('redditLanes', JSON.stringify(lanes));
-  }, [lanes]);
+    localStorage.setItem('redditLanes', JSON.stringify(lanes))
+  }, [lanes])
 
   const addLane = async (subreddit) => {
     if (lanes.some(lane => lane.subreddit.toLowerCase() === subreddit.toLowerCase())) {
-      setError(`Subreddit "${subreddit}" already exists`);
-      return;
+      setError(`Subreddit "${subreddit}" already exists`)
+      return
     }
 
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
 
     try {
-      const response = await fetch(`https://www.reddit.com/r/${subreddit}.json`);
+      const response = await fetch(`https://www.reddit.com/r/${subreddit}.json`)
       if (!response.ok) {
-        throw new Error(`Subreddit "${subreddit}" not found`);
+        throw new Error(`Subreddit "${subreddit}" not found`)
       }
-      const data = await response.json();
+      const data = await response.json()
       
       if (data.data.children.length === 0) {
-        throw new Error(`Subreddit "${subreddit}" has no posts`);
+        throw new Error(`Subreddit "${subreddit}" has no posts`)
       }
 
       const newLane = {
@@ -45,34 +45,34 @@ export default function App() {
         posts: data.data.children.slice(0, 10), // Get first 10 posts
         loading: false,
         error: null
-      };
+      }
 
-      setLanes([...lanes, newLane]);
+      setLanes([...lanes, newLane])
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const removeLane = (subreddit) => {
-    setLanes(lanes.filter(lane => lane.subreddit !== subreddit));
-  };
+    setLanes(lanes.filter(lane => lane.subreddit !== subreddit))
+  }
 
   const refreshLane = async (subreddit) => {
     setLanes(lanes.map(lane => {
       if (lane.subreddit === subreddit) {
-        return { ...lane, loading: true, error: null };
+        return { ...lane, loading: true, error: null }
       }
-      return lane;
-    }));
+      return lane
+    }))
 
     try {
-      const response = await fetch(`https://www.reddit.com/r/${subreddit}.json`);
+      const response = await fetch(`https://www.reddit.com/r/${subreddit}.json`)
       if (!response.ok) {
-        throw new Error(`Failed to refresh "${subreddit}"`);
+        throw new Error(`Failed to refresh "${subreddit}"`)
       }
-      const data = await response.json();
+      const data = await response.json()
 
       setLanes(lanes.map(lane => {
         if (lane.subreddit === subreddit) {
@@ -81,19 +81,19 @@ export default function App() {
             posts: data.data.children.slice(0, 10),
             loading: false,
             error: null
-          };
+          }
         }
-        return lane;
-      }));
+        return lane
+      }))
     } catch (err) {
       setLanes(lanes.map(lane => {
         if (lane.subreddit === subreddit) {
-          return { ...lane, loading: false, error: err.message };
+          return { ...lane, loading: false, error: err.message }
         }
-        return lane;
-      }));
+        return lane
+      }))
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
@@ -128,5 +128,7 @@ export default function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
+
+export default RedisclientPage

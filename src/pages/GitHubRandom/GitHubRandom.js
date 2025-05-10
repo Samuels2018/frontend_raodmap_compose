@@ -82,6 +82,227 @@ function App() {
     setLanguage(e.target.value);
   };
 
+  /*return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
+            GitHub <span className="text-emerald-600">Random</span> Repository Finder
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Descubre repositorios aleatorios por lenguaje de programación
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
+          <div className="relative w-full sm:w-auto">
+            <select
+              value={language}
+              onChange={handleLanguageChange}
+              disabled={loading}
+              className="block w-full sm:w-64 px-4 py-3 text-base border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:opacity-50 appearance-none bg-white pr-10"
+            >
+              {languages.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang.charAt(0).toUpperCase() + lang.slice(1)}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <button
+            onClick={handleRefresh}
+            disabled={loading}
+            className="w-full sm:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 ease-in-out flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <RefreshCcw className="h-5 w-5 animate-spin" />
+                <span>Cargando...</span>
+              </>
+            ) : (
+              <>
+                <RefreshCcw className="h-5 w-5" />
+                <span>Refrescar</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        <div className="bg-white shadow-lg overflow-hidden rounded-xl border border-gray-100">
+          {loading && (
+            <div className="p-10 text-center">
+              <div className="flex justify-center">
+                <RefreshCcw className="h-12 w-12 text-emerald-600 animate-spin" />
+              </div>
+              <p className="mt-6 text-gray-600 font-medium">Buscando repositorios...</p>
+            </div>
+          )}
+
+          {error && (
+            <div className="p-8 text-center">
+              <div className="flex justify-center text-red-500 mb-4">
+                <AlertCircle className="h-12 w-12" />
+              </div>
+              <h3 className="text-xl font-semibold text-red-600 mb-3">Error</h3>
+              <p className="text-gray-600 mb-6">{error}</p>
+              <button
+                onClick={handleRefresh}
+                className="px-5 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+              >
+                Intentar nuevamente
+              </button>
+            </div>
+          )}
+
+          {!loading && !error && repository && (
+            <div className="p-8">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <img
+                    className="h-14 w-14 rounded-full ring-2 ring-emerald-100 p-1"
+                    src={repository.owner.avatar_url || "/placeholder.svg"}
+                    alt={`Avatar de ${repository.owner.login}`}
+                  />
+                </div>
+                <div className="ml-5">
+                  <h2 className="text-2xl font-bold text-gray-900 hover:text-emerald-600 transition-colors duration-200">
+                    <a
+                      href={repository.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2"
+                    >
+                      {repository.full_name}
+                      <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
+                  </h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Creado por{" "}
+                    <a
+                      href={repository.owner.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-600 hover:underline font-medium"
+                    >
+                      {repository.owner.login}
+                    </a>
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <p className="text-gray-700">{repository.description || "No hay descripción disponible."}</p>
+              </div>
+
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 transition-all duration-200 hover:shadow-md hover:border-emerald-100">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Star className="h-5 w-5 text-yellow-500" />
+                    <p className="text-sm font-medium text-gray-500">Estrellas</p>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">{repository.stargazers_count.toLocaleString()}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 transition-all duration-200 hover:shadow-md hover:border-emerald-100">
+                  <div className="flex items-center gap-2 mb-2">
+                    <GitFork className="h-5 w-5 text-blue-500" />
+                    <p className="text-sm font-medium text-gray-500">Forks</p>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">{repository.forks_count.toLocaleString()}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 transition-all duration-200 hover:shadow-md hover:border-emerald-100">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="h-5 w-5 text-amber-500" />
+                    <p className="text-sm font-medium text-gray-500">Issues abiertos</p>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">{repository.open_issues_count.toLocaleString()}</p>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <div className="flex flex-wrap gap-4 items-center">
+                  {repository.language && (
+                    <span className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
+                      <Code className="h-4 w-4 mr-1.5" />
+                      {repository.language}
+                    </span>
+                  )}
+                  <span className="text-sm text-gray-500 flex items-center">
+                    <svg className="h-4 w-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    Creado: {new Date(repository.created_at).toLocaleDateString()}
+                  </span>
+                  <span className="text-sm text-gray-500 flex items-center">
+                    <svg className="h-4 w-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+                    Actualizado: {new Date(repository.updated_at).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!loading && !error && !repository && (
+            <div className="p-10 text-center">
+              <svg className="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <h3 className="mt-4 text-xl font-medium text-gray-900">No se encontraron repositorios</h3>
+              <p className="mt-2 text-gray-500">No hay repositorios disponibles para el lenguaje seleccionado.</p>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-500 flex items-center justify-center gap-1">
+            <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Usando la API de GitHub - Página {page}
+          </p>
+        </div>
+      </div>
+    </div>
+  )*/
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">

@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
-export default function AddLaneForm({ onAddLane, isLoading, error, clearError }) {
-  const [subreddit, setSubreddit] = useState('');
+const AddLaneForm = ({ onAddLane, isLoading, error, clearError }) => {
+  const [subreddit, setSubreddit] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (subreddit.trim()) {
-      onAddLane(subreddit.trim());
-      setSubreddit('');
+      onAddLane(subreddit.trim())
+      setSubreddit('')
     }
-  };
+  }
 
   return (
     <div className="bg-white rounded-lg shadow p-4 mb-6">
@@ -25,8 +25,8 @@ export default function AddLaneForm({ onAddLane, isLoading, error, clearError })
               id="subreddit"
               value={subreddit}
               onChange={(e) => {
-                clearError();
-                setSubreddit(e.target.value);
+                clearError()
+                setSubreddit(e.target.value)
               }}
               className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-4 border"
               placeholder="subreddit"
@@ -45,5 +45,7 @@ export default function AddLaneForm({ onAddLane, isLoading, error, clearError })
         <div className="mt-2 text-sm text-red-600">{error}</div>
       )}
     </div>
-  );
+  )
 }
+
+export default AddLaneForm

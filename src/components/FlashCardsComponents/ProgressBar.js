@@ -1,9 +1,4 @@
-interface ProgressBarProps {
-  current: number;
-  total: number;
-}
-
-const ProgressBar = ({ current, total }: ProgressBarProps) => {
+const ProgressBar = ({ current, total }) => {
   const percentage = (current / total) * 100;
 
   return (

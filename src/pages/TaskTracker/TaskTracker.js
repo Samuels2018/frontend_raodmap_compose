@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function TaskTracker() {
+const TaskTracker = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
 
@@ -36,6 +36,7 @@ function TaskTracker() {
   // Separar tareas completadas y no completadas
   const pendingTasks = tasks.filter(task => !task.completed);
   const completedTasks = tasks.filter(task => task.completed);
+
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
@@ -120,6 +121,7 @@ function TaskTracker() {
       </div>
     </div>
   );
+
 }
 
 export default TaskTracker;

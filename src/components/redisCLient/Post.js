@@ -1,10 +1,10 @@
-export default function Post({ post }) {
+const Post = ({ post }) => {
   const formatNumber = (num) => {
     if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'k';
+      return (num / 1000).toFixed(1) + 'k'
     }
-    return num;
-  };
+    return num
+  }
 
   return (
     <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -46,5 +46,7 @@ export default function Post({ post }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
+
+export default Post

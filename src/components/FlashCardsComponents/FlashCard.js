@@ -1,13 +1,4 @@
-interface FlashCardProps {
-  card: {
-    question: string;
-    answer: string;
-  };
-  flipped: boolean;
-  onFlip: () => void;
-}
-
-const FlashCard = ({ card, flipped, onFlip }: FlashCardProps) => {
+const FlashCard = ({ card, flipped, onFlip }) => {
   return (
     <div 
       className={`w-full h-full relative transition-transform duration-500 transform-style-preserve-3d cursor-pointer ${

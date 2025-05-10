@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import alarmSound from './assets/alarm.mp3';
+import alarmSound from '../../assets/alarma.webp';
 
-function App() {
+const Timer = () => {
   // Timer settings
   const [workDuration, setWorkDuration] = useState(25);
   const [shortBreakDuration, setShortBreakDuration] = useState(5);
@@ -140,6 +140,9 @@ function App() {
     }
   };
 
+
+
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
       <audio ref={audioRef} src={alarmSound} />
@@ -273,6 +276,8 @@ function App() {
       </div>
     </div>
   );
+
+
 }
 
-export default App;
+export default Timer;
