@@ -1,70 +1,76 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 const TemperatureConverter = () => {
-  const [temperature, setTemperature] = useState('');
-  const [fromUnit, setFromUnit] = useState('celsius');
-  const [toUnit, setToUnit] = useState('fahrenheit');
-  const [convertedTemp, setConvertedTemp] = useState(null);
-  const [error, setError] = useState('');
+  const [temperature, setTemperature] = useState('')
+  const [fromUnit, setFromUnit] = useState('celsius')
+  const [toUnit, setToUnit] = useState('fahrenheit')
+  const [convertedTemp, setConvertedTemp] = useState(null)
+  const [error, setError] = useState('')
 
   const temperatureUnits = [
     { value: 'celsius', label: 'Celsius (°C)' },
     { value: 'fahrenheit', label: 'Fahrenheit (°F)' },
     { value: 'kelvin', label: 'Kelvin (K)' },
-  ];
+  ]
 
   const convertTemperature = () => {
-    setError('');
+    setError('')
     
     // Validate input
     if (temperature === '') {
-      setError('Please enter a temperature value');
-      return;
-    }
-    
-    const tempValue = parseFloat(temperature);
-    if (isNaN(tempValue)) {
-      setError('Please enter a valid number');
-      return;
+      setError('Please enter a temperature value')
+      return
     }
 
-    let result;
+    if (temperature && isNaN(Number(temperature))) {
+      setError('Please enter a valid number');
+    } else {
+      setError('');
+    }
+    
+    const tempValue = parseFloat(temperature)
+    if (isNaN(tempValue)) {
+      setError('Please enter a valid number')
+      return
+    }
+
+    let result
     
     // Convert to Celsius first
-    let celsius;
+    let celsius
     switch (fromUnit) {
       case 'celsius':
-        celsius = tempValue;
-        break;
+        celsius = tempValue
+        break
       case 'fahrenheit':
-        celsius = (tempValue - 32) * 5/9;
-        break;
+        celsius = (tempValue - 32) * 5/9
+        break
       case 'kelvin':
-        celsius = tempValue - 273.15;
-        break;
+        celsius = tempValue - 273.15
+        break
       default:
-        celsius = tempValue;
+        celsius = tempValue
     }
     
     // Then convert from Celsius to target unit
     switch (toUnit) {
       case 'celsius':
-        result = celsius;
-        break;
+        result = celsius
+        break
       case 'fahrenheit':
-        result = (celsius * 9/5) + 32;
-        break;
+        result = (celsius * 9/5) + 32
+        break
       case 'kelvin':
-        result = celsius + 273.15;
-        break;
+        result = celsius + 273.15
+        break
       default:
-        result = celsius;
+        result = celsius
     }
     
-    setConvertedTemp(result.toFixed(2));
-  };
+    setConvertedTemp(result.toFixed(2))
+  }
 
-  const isConvertDisabled = temperature === '';
+  const isConvertDisabled = temperature === ''
 
   
 
@@ -86,6 +92,7 @@ const TemperatureConverter = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter temperature"
             />
+            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
           </div>
           
           <div className="grid grid-cols-2 gap-4">
@@ -147,7 +154,7 @@ const TemperatureConverter = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TemperatureConverter;
+export default TemperatureConverter

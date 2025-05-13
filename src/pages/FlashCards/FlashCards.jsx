@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import FlashCard from '../../components/FlashCardsComponents/FlashCard';
-import ProgressBar from '../../components/FlashCardsComponents/ProgressBar';
+import { useState } from 'react'
+import FlashCard from '../../components/FlashCardsComponents/FlashCard'
+import ProgressBar from '../../components/FlashCardsComponents/ProgressBar'
 
 const initialFlashCards = [
   {
@@ -56,27 +56,27 @@ const initialFlashCards = [
 ]
 
 const FlashCardsPage = () => {
-  const [cards] = useState(initialFlashCards);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [flipped, setFlipped] = useState(false);
+  const [cards] = useState(initialFlashCards)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [flipped, setFlipped] = useState(false)
 
   const handleNext = () => {
-    setFlipped(false);
+    setFlipped(false)
     setCurrentIndex((prevIndex) => 
       prevIndex === cards.length - 1 ? 0 : prevIndex + 1
-    );
-  };
+    )
+  }
 
   const handlePrev = () => {
-    setFlipped(false);
+    setFlipped(false)
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? cards.length - 1 : prevIndex - 1
-    );
-  };
+    )
+  }
 
   const handleFlip = () => {
-    setFlipped(!flipped);
-  };
+    setFlipped(!flipped)
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -109,7 +109,7 @@ const FlashCardsPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FlashCardsPage;
+export default FlashCardsPage

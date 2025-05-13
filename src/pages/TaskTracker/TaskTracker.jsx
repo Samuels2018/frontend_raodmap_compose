@@ -1,41 +1,41 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 const TaskTracker = () => {
-  const [tasks, setTasks] = useState([]);
-  const [newTask, setNewTask] = useState('');
+  const [tasks, setTasks] = useState([])
+  const [newTask, setNewTask] = useState('')
 
   const addTask = () => {
-    if (newTask.trim() === '') return;
+    if (newTask.trim() === '') return
     
     const task = {
       id: Date.now(),
       description: newTask,
       completed: false
-    };
+    }
 
-    setTasks([...tasks, task]);
-    setNewTask('');
-  };
+    setTasks([...tasks, task])
+    setNewTask('')
+  }
 
   const toggleTask = (id) => {
     setTasks(tasks.map(task => 
       task.id === id ? { ...task, completed: !task.completed } : task
-    ));
-  };
+    ))
+  }
 
   const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
-  };
+    setTasks(tasks.filter(task => task.id !== id))
+  }
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      addTask();
+      addTask()
     }
-  };
+  }
 
   // Separar tareas completadas y no completadas
-  const pendingTasks = tasks.filter(task => !task.completed);
-  const completedTasks = tasks.filter(task => task.completed);
+  const pendingTasks = tasks.filter(task => !task.completed)
+  const completedTasks = tasks.filter(task => task.completed)
 
 
   return (
@@ -120,8 +120,8 @@ const TaskTracker = () => {
         )}
       </div>
     </div>
-  );
+  )
 
 }
 
-export default TaskTracker;
+export default TaskTracker

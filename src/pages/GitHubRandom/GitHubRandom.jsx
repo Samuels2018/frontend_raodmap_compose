@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
-function App() {
-  const [language, setLanguage] = useState('javascript');
-  const [repository, setRepository] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
+const GitHubRandomPage = () => {
+  const [language, setLanguage] = useState('javascript')
+  const [repository, setRepository] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [page, setPage] = useState(1)
 
   const languages = [
     'javascript',
@@ -20,67 +20,67 @@ function App() {
     'swift',
     'kotlin',
     'rust'
-  ];
+  ]
 
   const fetchRandomRepository = async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     
     try {
       // Primero obtenemos el conteo total de repositorios
       const initialResponse = await fetch(
         `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&per_page=1`
-      );
+      )
       
       if (!initialResponse.ok) {
-        throw new Error('Error al obtener datos de GitHub');
+        throw new Error('Error al obtener datos de GitHub')
       }
       
-      const initialData = await initialResponse.json();
-      const totalRepos = initialData.total_count;
+      const initialData = await initialResponse.json()
+      const totalRepos = initialData.total_count
       
       // Calculamos una página aleatoria (GitHub permite máximo 1000 resultados)
-      const maxPage = Math.min(Math.ceil(totalRepos / 30), 33);
-      const randomPage = Math.floor(Math.random() * maxPage) + 1;
+      const maxPage = Math.min(Math.ceil(totalRepos / 30), 33)
+      const randomPage = Math.floor(Math.random() * maxPage) + 1
       
       // Obtenemos una página aleatoria de resultados
       const response = await fetch(
         `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&page=${randomPage}&per_page=30`
-      );
+      )
       
       if (!response.ok) {
-        throw new Error('Error al obtener repositorios');
+        throw new Error('Error al obtener repositorios')
       }
       
-      const data = await response.json();
+      const data = await response.json()
       
       if (data.items && data.items.length > 0) {
         // Seleccionamos un repositorio aleatorio de la página
-        const randomIndex = Math.floor(Math.random() * data.items.length);
-        setRepository(data.items[randomIndex]);
-        setPage(randomPage);
+        const randomIndex = Math.floor(Math.random() * data.items.length)
+        setRepository(data.items[randomIndex])
+        setPage(randomPage)
       } else {
-        setRepository(null);
+        setRepository(null)
       }
     } catch (err) {
-      setError(err.message);
-      setRepository(null);
+      setError(err.message)
+      setRepository(null)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchRandomRepository();
-  }, [language]);
+    fetchRandomRepository()
+  }, [language])
 
   const handleRefresh = () => {
-    fetchRandomRepository();
-  };
+    fetchRandomRepository()
+  }
 
   const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
+    setLanguage(e.target.value)
+  }
 
   /*return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -446,7 +446,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default GitHubRandomPage

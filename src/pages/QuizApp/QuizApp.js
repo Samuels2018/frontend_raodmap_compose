@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import StartScreen from '../../components//QuizAppComponents/StartScreen';
-import QuestionCard from '../../components//QuizAppComponents/QuestionCard';
-import ResultsScreen from '../../components//QuizAppComponents/ResultsScreen';
+import StartScreen from '../../components/QuizAppComponents/StartScreen';
+import QuestionCard from '../../components/QuizAppComponents/QuestionCard';
+import ResultsScreen from '../../components/QuizAppComponents/ResultsScreen';
 
 const quizData = [
   {

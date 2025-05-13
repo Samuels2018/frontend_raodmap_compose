@@ -1,144 +1,144 @@
-import { useState, useEffect, useRef } from 'react';
-import alarmSound from '../../assets/alarma.webp';
+import { useState, useEffect, useRef } from 'react'
+import alarmSound from '../../assets/alarma.webp'
 
 const Timer = () => {
   // Timer settings
-  const [workDuration, setWorkDuration] = useState(25);
-  const [shortBreakDuration, setShortBreakDuration] = useState(5);
-  const [longBreakDuration, setLongBreakDuration] = useState(15);
-  const [sessionsBeforeLongBreak, setSessionsBeforeLongBreak] = useState(4);
+  const [workDuration, setWorkDuration] = useState(25)
+  const [shortBreakDuration, setShortBreakDuration] = useState(5)
+  const [longBreakDuration, setLongBreakDuration] = useState(15)
+  const [sessionsBeforeLongBreak, setSessionsBeforeLongBreak] = useState(4)
   
   // Timer state
-  const [timeLeft, setTimeLeft] = useState(workDuration * 60);
-  const [isActive, setIsActive] = useState(false);
-  const [sessionType, setSessionType] = useState('work');
-  const [completedSessions, setCompletedSessions] = useState(0);
-  const [showSettings, setShowSettings] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(workDuration * 60)
+  const [isActive, setIsActive] = useState(false)
+  const [sessionType, setSessionType] = useState('work')
+  const [completedSessions, setCompletedSessions] = useState(0)
+  const [showSettings, setShowSettings] = useState(false)
   
-  const audioRef = useRef(null);
+  const audioRef = useRef(null)
 
   // Calculate minutes and seconds for display
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
+  const minutes = Math.floor(timeLeft / 60)
+  const seconds = timeLeft % 60
   
   // Format time with leading zeros
-  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
   
   // Timer logic
   useEffect(() => {
-    let interval = null;
+    let interval = null
     
     if (isActive && timeLeft > 0) {
       interval = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 1000);
+        setTimeLeft((prevTime) => prevTime - 1)
+      }, 1000)
     } else if (isActive && timeLeft === 0) {
       // Timer completed
-      clearInterval(interval);
-      audioRef.current.play();
+      clearInterval(interval)
+      audioRef.current.play()
       
       if (sessionType === 'work') {
-        const newCompletedSessions = completedSessions + 1;
-        setCompletedSessions(newCompletedSessions);
+        const newCompletedSessions = completedSessions + 1
+        setCompletedSessions(newCompletedSessions)
         
         // Determine if it's time for a long break
         if (newCompletedSessions % sessionsBeforeLongBreak === 0) {
-          setSessionType('longBreak');
-          setTimeLeft(longBreakDuration * 60);
+          setSessionType('longBreak')
+          setTimeLeft(longBreakDuration * 60)
         } else {
-          setSessionType('shortBreak');
-          setTimeLeft(shortBreakDuration * 60);
+          setSessionType('shortBreak')
+          setTimeLeft(shortBreakDuration * 60)
         }
       } else {
         // Break completed, start work session
-        setSessionType('work');
-        setTimeLeft(workDuration * 60);
+        setSessionType('work')
+        setTimeLeft(workDuration * 60)
       }
       
       // Auto-start next session
-      setIsActive(true);
+      setIsActive(true)
     }
     
-    return () => clearInterval(interval);
-  }, [isActive, timeLeft, sessionType, completedSessions, workDuration, shortBreakDuration, longBreakDuration, sessionsBeforeLongBreak]);
+    return () => clearInterval(interval)
+  }, [isActive, timeLeft, sessionType, completedSessions, workDuration, shortBreakDuration, longBreakDuration, sessionsBeforeLongBreak])
   
   // Reset timer when settings change
   useEffect(() => {
     if (sessionType === 'work') {
-      setTimeLeft(workDuration * 60);
+      setTimeLeft(workDuration * 60)
     } else if (sessionType === 'shortBreak') {
-      setTimeLeft(shortBreakDuration * 60);
+      setTimeLeft(shortBreakDuration * 60)
     } else {
-      setTimeLeft(longBreakDuration * 60);
+      setTimeLeft(longBreakDuration * 60)
     }
-  }, [workDuration, shortBreakDuration, longBreakDuration, sessionType]);
+  }, [workDuration, shortBreakDuration, longBreakDuration, sessionType])
   
   const toggleTimer = () => {
-    setIsActive(!isActive);
-  };
+    setIsActive(!isActive)
+  }
   
   const resetTimer = () => {
-    setIsActive(false);
+    setIsActive(false)
     if (sessionType === 'work') {
-      setTimeLeft(workDuration * 60);
+      setTimeLeft(workDuration * 60)
     } else if (sessionType === 'shortBreak') {
-      setTimeLeft(shortBreakDuration * 60);
+      setTimeLeft(shortBreakDuration * 60)
     } else {
-      setTimeLeft(longBreakDuration * 60);
+      setTimeLeft(longBreakDuration * 60)
     }
-  };
+  }
   
   const skipSession = () => {
-    setIsActive(false);
+    setIsActive(false)
     if (sessionType === 'work') {
-      const newCompletedSessions = completedSessions + 1;
-      setCompletedSessions(newCompletedSessions);
+      const newCompletedSessions = completedSessions + 1
+      setCompletedSessions(newCompletedSessions)
       
       if (newCompletedSessions % sessionsBeforeLongBreak === 0) {
-        setSessionType('longBreak');
-        setTimeLeft(longBreakDuration * 60);
+        setSessionType('longBreak')
+        setTimeLeft(longBreakDuration * 60)
       } else {
-        setSessionType('shortBreak');
-        setTimeLeft(shortBreakDuration * 60);
+        setSessionType('shortBreak')
+        setTimeLeft(shortBreakDuration * 60)
       }
     } else {
-      setSessionType('work');
-      setTimeLeft(workDuration * 60);
+      setSessionType('work')
+      setTimeLeft(workDuration * 60)
     }
-  };
+  }
   
   const handleWorkDurationChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (value > 0) setWorkDuration(value);
-  };
+    const value = parseInt(e.target.value)
+    if (value > 0) setWorkDuration(value)
+  }
   
   const handleShortBreakChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (value > 0) setShortBreakDuration(value);
-  };
+    const value = parseInt(e.target.value)
+    if (value > 0) setShortBreakDuration(value)
+  }
   
   const handleLongBreakChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (value > 0) setLongBreakDuration(value);
-  };
+    const value = parseInt(e.target.value)
+    if (value > 0) setLongBreakDuration(value)
+  }
   
   const handleSessionsBeforeLongBreakChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (value > 0) setSessionsBeforeLongBreak(value);
-  };
+    const value = parseInt(e.target.value)
+    if (value > 0) setSessionsBeforeLongBreak(value)
+  }
   
   const getSessionColor = () => {
     switch (sessionType) {
       case 'work':
-        return 'bg-red-500';
+        return 'bg-red-500'
       case 'shortBreak':
-        return 'bg-green-500';
+        return 'bg-green-500'
       case 'longBreak':
-        return 'bg-blue-500';
+        return 'bg-blue-500'
       default:
-        return 'bg-gray-500';
+        return 'bg-gray-500'
     }
-  };
+  }
 
 
 
@@ -275,9 +275,9 @@ const Timer = () => {
         <p>Work for 25 minutes, then take a 5-minute break. After 4 work sessions, take a longer break.</p>
       </div>
     </div>
-  );
+  )
 
 
 }
 
-export default Timer;
+export default Timer

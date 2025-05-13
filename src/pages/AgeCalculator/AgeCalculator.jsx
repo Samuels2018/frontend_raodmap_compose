@@ -10,7 +10,7 @@ const AgeCalculator = () => {
     e.preventDefault()
     setError(null)
 
-    if (!birthDate) {
+    if (!birthDate || birthDate === "") {
       setError("Por favor selecciona una fecha de nacimiento")
       return
     }
@@ -55,7 +55,7 @@ const AgeCalculator = () => {
         </div>
 
         <div className="p-6 space-y-6">
-          <form onSubmit={calculateAge} className="space-y-5">
+          <form onSubmit={calculateAge} className="space-y-5" role="form" data-testid="age-form">
             <div className="space-y-2">
               <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700">
                 Fecha de Nacimiento:
