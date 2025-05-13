@@ -16,7 +16,7 @@ const FlashCard = ({ card, flipped, onFlip }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FlashCard;
+export default FlashCard

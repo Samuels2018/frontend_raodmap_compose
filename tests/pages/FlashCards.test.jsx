@@ -11,7 +11,7 @@ describe('FlashCardsPage', () => {
     expect(screen.getByRole('button', { name: 'Siguiente' })).toBeInTheDocument()
   })
 
-  /*it('muestra la primera tarjeta al inicio', () => {
+  it('muestra la primera tarjeta al inicio', () => {
     render(<FlashCardsPage />)
     
     expect(screen.getByText('¿Cuál es el idioma más hablado del mundo?')).toBeInTheDocument()
@@ -30,7 +30,7 @@ describe('FlashCardsPage', () => {
     expect(screen.getByText('¿Cuál es el idioma más hablado del mundo?')).toBeInTheDocument()
     
     // Circular al final de la lista
-    for (let i = 0 i < 9 i++) {
+    for (let i = 0; i < 9; i++) {
       fireEvent.click(screen.getByText('Siguiente'))
     }
     expect(screen.getByText('¿Qué es el efecto de lengua puente?')).toBeInTheDocument()
@@ -62,15 +62,16 @@ describe('FlashCardsPage', () => {
     render(<FlashCardsPage />)
     
     // Verificar progreso inicial (1/10)
-    expect(screen.getByText('1 / 10')).toBeInTheDocument()
+
+    expect(screen.getByText('Tarjeta 1 de 10')).toBeInTheDocument()
     
     // Avanzar y verificar progreso (2/10)
     fireEvent.click(screen.getByText('Siguiente'))
-    expect(screen.getByText('2 / 10')).toBeInTheDocument()
+    expect(screen.getByText('Tarjeta 2 de 10')).toBeInTheDocument()
     
     // Retroceder y verificar progreso (1/10)
     fireEvent.click(screen.getByText('Anterior'))
-    expect(screen.getByText('1 / 10')).toBeInTheDocument()
+    expect(screen.getByText('Tarjeta 1 de 10')).toBeInTheDocument()
   })
 
   it('reinicia el estado de volteo al cambiar de tarjeta', () => {
@@ -93,7 +94,7 @@ describe('FlashCardsPage', () => {
     render(<FlashCardsPage />)
     
     // Ir a la última tarjeta
-    for (let i = 0 i < 9 i++) {
+    for (let i = 0; i < 9; i++) {
       fireEvent.click(screen.getByText('Siguiente'))
     }
     expect(screen.getByText('¿Qué es el efecto de lengua puente?')).toBeInTheDocument()
@@ -105,5 +106,5 @@ describe('FlashCardsPage', () => {
     // Retroceder desde la primera debería ir al final
     fireEvent.click(screen.getByText('Anterior'))
     expect(screen.getByText('¿Qué es el efecto de lengua puente?')).toBeInTheDocument()
-  })*/
+  })
 })

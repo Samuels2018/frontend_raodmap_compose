@@ -13,7 +13,7 @@ const StartScreen = ({ onStart }) => {
         Start Quiz
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default StartScreen;
+export default StartScreen

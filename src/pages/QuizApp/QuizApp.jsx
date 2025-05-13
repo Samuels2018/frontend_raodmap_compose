@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import StartScreen from '../../components/QuizAppComponents/StartScreen';
-import QuestionCard from '../../components/QuizAppComponents/QuestionCard';
-import ResultsScreen from '../../components/QuizAppComponents/ResultsScreen';
+import { useState, useEffect } from 'react'
+import StartScreen from '../../components/QuizAppComponents/StartScreen'
+import QuestionCard from '../../components/QuizAppComponents/QuestionCard'
+import ResultsScreen from '../../components/QuizAppComponents/ResultsScreen'
 
 const quizData = [
   {
@@ -29,46 +29,46 @@ const quizData = [
     options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
     correctAnswer: "Leonardo da Vinci"
   }
-];
+]
 
-function App() {
-  const [quizStarted, setQuizStarted] = useState(false);
-  const [quizFinished, setQuizFinished] = useState(false);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
-  const [timeLeft, setTimeLeft] = useState(60);
+const QuizApp = () => {
+  const [quizStarted, setQuizStarted] = useState(false)
+  const [quizFinished, setQuizFinished] = useState(false)
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [score, setScore] = useState(0)
+  const [userAnswers, setUserAnswers] = useState([])
+  const [timeLeft, setTimeLeft] = useState(60)
 
   useEffect(() => {
-    let timer;
+    let timer
     if (quizStarted && !quizFinished && timeLeft > 0) {
       timer = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
-      }, 1000);
+        setTimeLeft(prev => prev - 1)
+      }, 1000)
     } else if (timeLeft === 0) {
-      handleAnswerSelected(null);
+      handleAnswerSelected(null)
     }
-    return () => clearInterval(timer);
-  }, [quizStarted, quizFinished, timeLeft]);
+    return () => clearInterval(timer)
+  }, [quizStarted, quizFinished, timeLeft])
 
   const startQuiz = () => {
-    setQuizStarted(true);
-    setQuizFinished(false);
-    setCurrentQuestionIndex(0);
-    setScore(0);
-    setUserAnswers([]);
-    setTimeLeft(60);
-  };
+    setQuizStarted(true)
+    setQuizFinished(false)
+    setCurrentQuestionIndex(0)
+    setScore(0)
+    setUserAnswers([])
+    setTimeLeft(60)
+  }
 
   const handleAnswerSelected = (selectedAnswer) => {
-    const currentQuestion = quizData[currentQuestionIndex];
-    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    const currentQuestion = quizData[currentQuestionIndex]
+    const isCorrect = selectedAnswer === currentQuestion.correctAnswer
     
     if (isCorrect) {
-      setScore(prev => prev + 1);
+      setScore(prev => prev + 1)
     } else if (selectedAnswer === null) {
       // Time ran out, decrement score
-      setScore(prev => Math.max(0, prev - 1));
+      setScore(prev => Math.max(0, prev - 1))
     }
     
     setUserAnswers([...userAnswers, {
@@ -76,19 +76,19 @@ function App() {
       selectedAnswer,
       correctAnswer: currentQuestion.correctAnswer,
       isCorrect
-    }]);
+    }])
     
     if (currentQuestionIndex < quizData.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setTimeLeft(60);
+      setCurrentQuestionIndex(currentQuestionIndex + 1)
+      setTimeLeft(60)
     } else {
-      setQuizFinished(true);
+      setQuizFinished(true)
     }
-  };
+  }
 
   const restartQuiz = () => {
-    startQuiz();
-  };
+    startQuiz()
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -113,7 +113,7 @@ function App() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default QuizApp

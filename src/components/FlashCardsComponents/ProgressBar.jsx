@@ -1,5 +1,5 @@
 const ProgressBar = ({ current, total }) => {
-  const percentage = (current / total) * 100;
+  const percentage = (current / total) * 100
 
   return (
     <div className="w-full bg-gray-200 rounded-full h-6 mb-6 relative">
@@ -11,7 +11,7 @@ const ProgressBar = ({ current, total }) => {
         Tarjeta {current} de {total}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProgressBar;
+export default ProgressBar

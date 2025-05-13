@@ -1,35 +1,35 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 const QuestionCard = ({ question, options, correctAnswer, onAnswerSelected, timeLeft }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [hasAnswered, setHasAnswered] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(null)
+  const [hasAnswered, setHasAnswered] = useState(false)
 
   const handleAnswerClick = (answer) => {
-    if (hasAnswered) return;
+    if (hasAnswered) return
     
-    setSelectedAnswer(answer);
-    setHasAnswered(true);
+    setSelectedAnswer(answer)
+    setHasAnswered(true)
     
     setTimeout(() => {
-      onAnswerSelected(answer);
-      setSelectedAnswer(null);
-      setHasAnswered(false);
-    }, 1500);
-  };
+      onAnswerSelected(answer)
+      setSelectedAnswer(null)
+      setHasAnswered(false)
+    }, 1500)
+  }
 
   const getButtonClass = (option) => {
-    if (!hasAnswered) return "bg-white hover:bg-gray-100 text-gray-800";
+    if (!hasAnswered) return "bg-white hover:bg-gray-100 text-gray-800"
     
     if (option === correctAnswer) {
-      return "bg-green-500 text-white";
+      return "bg-green-500 text-white"
     }
     
     if (option === selectedAnswer && option !== correctAnswer) {
-      return "bg-red-500 text-white";
+      return "bg-red-500 text-white"
     }
     
-    return "bg-gray-200 text-gray-800";
-  };
+    return "bg-gray-200 text-gray-800"
+  }
 
   return (
     <div className="p-6">
@@ -68,7 +68,7 @@ const QuestionCard = ({ question, options, correctAnswer, onAnswerSelected, time
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default QuestionCard;
+export default QuestionCard

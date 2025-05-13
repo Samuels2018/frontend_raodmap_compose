@@ -38,7 +38,7 @@ const ResultsScreen = ({ score, totalQuestions, userAnswers, onRestart }) => {
         Restart Quiz
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default ResultsScreen;
+export default ResultsScreen
